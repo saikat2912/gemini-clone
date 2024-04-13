@@ -18,16 +18,34 @@ const ContextProvider =(props)=>{
         },75*index)
     }
 
+    const newChat=()=>{
+      
+
+        setLoading(false);
+        setShowResults(false);
+    }
+
     const onSent = async(prompt)=>{
 
         setResultData("")
         setLoading(true)
         setShowResults(true)
-        setRecentPrompt(input)
-        const response=await runChat(input)
+        let response="";
+        if(prompt!=undefined){
+            console.log("the prompt is ",prompt)
+            setRecentPrompt(prompt)
+            response=  await runChat(prompt) 
+        }
+        else{
+            setPrevPrompts(prev=>[...prev,input])
+            console.log("the prompt is ",prompt)
+            setRecentPrompt(input)
+            response=  await runChat(input) 
+        }
+        
         let responseArray = response.split("**");
-        let newArray;
-        console.log('Response with out start is ',responseArray)
+        let newArray="";
+       // console.log('Response with out start is ',responseArray)
         for(let i=0;i<responseArray.length;i++){
             if(i==0 || i%2!=1){
                 newArray+=responseArray[i];
@@ -37,7 +55,7 @@ const ContextProvider =(props)=>{
             }
 
         }
-        console.log("The first response is ",newArray)
+      //  console.log("The first response is ",newArray)
         let newResponse2 = newArray.split("*").join("</br>");
         let newResponseArray = newResponse2.split(" ");
         for(let i=0;i<newResponseArray.length;i++){
@@ -61,8 +79,10 @@ const ContextProvider =(props)=>{
         showResults,
         isLoading,
         resultData,
+        setLoading,
         setInput,
-        input
+        input,
+        newChat
     }
 
     return (

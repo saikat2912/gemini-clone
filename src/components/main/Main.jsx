@@ -23,7 +23,7 @@ const Main =()=>{
                 </div>
                 <div className="main-container">
 
-                    {console.log("What is show Results ",showResults," results are ",resultData)}
+                    {console.log("show result uis ",showResults)}
                     {!showResults?
                     <>
                          <div className="greet">
